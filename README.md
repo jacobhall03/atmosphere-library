@@ -1,2 +1,2 @@
-# matlab-atmosphere-library
-Repo of matlab functions, classes, etc. related to atmosphere modeling
+# atmosphere-library
+Repo of my code related to atmosphere modeling
