@@ -55,7 +55,7 @@ classdef AtmosModel
             localtemp = zeros(size(geometalt))';
             for i = 1:size(geometalt,2)
                 j = obj.alt2layer(geometalt(i));
-                localtemp(i) = obj.atmos_layers(j).alt2temp(geometalt(i));
+                localtemp(i) = obj.atmos_layers(j).alt2temp(geometalt(i), obj.mean_sealevel);
             end       
         end
 
@@ -69,7 +69,7 @@ classdef AtmosModel
             for i = 1:size(geometalt, 2)
                 j = obj.alt2layer(geometalt(i));
                 localdens(i) = obj.atmos_layers(j).alt2dens(geometalt(i), ...
-                    obj.grav_sealevel, obj.gas_constant);
+                    obj.grav_sealevel, obj.gas_constant, obj.mean_sealevel);
             end
         end
 
@@ -84,7 +84,7 @@ classdef AtmosModel
             for i = 1:size(geometalt, 2)
                 j = obj.alt2layer(geometalt(i));
                 localpres(i) = obj.atmos_layers(j).alt2pres(geometalt(i), ...
-                    obj.grav_sealevel, obj.gas_constant);
+                    obj.grav_sealevel, obj.gas_constant, obj.mean_sealevel);
             end
         end
         

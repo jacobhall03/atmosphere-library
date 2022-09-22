@@ -9,5 +9,5 @@ function localdens = temp2densGRAD(temp, temp_1, dens_1, temp_grad, g_0, Rgas)
         g_0 (1, 1) double {mustBeFinite, mustBePositive} = ConstantsSI.gE0
         Rgas (1, 1) double {mustBeFinite, mustBePositive} = ConstantsSI.Rair
     end
-    localdens = dens_1 .* (temp ./ temp_1).^(-(g_0 / (temp_grad * Rgas) + 1));
+    localdens = dens_1 .* (temp ./ temp_1).^(-g_0 / (temp_grad * Rgas) + 1);
 end

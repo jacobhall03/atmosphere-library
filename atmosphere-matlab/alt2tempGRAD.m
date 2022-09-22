@@ -7,5 +7,5 @@ function localtemp = alt2tempGRAD(metalt, metalt_1, lapse_rate, temp_1)
         temp_1 (1, 1) double {mustBeFinite}
     end
     potaltdiff = met2pot(metalt) - met2pot(metalt_1);
-    localtemp = temp_1 + lapse_rate .* potaltdiff
+    localtemp = temp_1 + lapse_rate .* potaltdiff;
 end

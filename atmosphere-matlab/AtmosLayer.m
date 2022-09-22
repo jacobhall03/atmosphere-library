@@ -25,49 +25,52 @@ classdef AtmosLayer
             obj.base_dens = base_dens;
         end
     
-        function localtemp = alt2temp(obj, geometalt)
+        function localtemp = alt2temp(obj, geometalt, r_0)
             arguments
                 obj (1, 1) AtmosLayer
                 geometalt (1, :) double {mustBeFinite}
+                r_0 (1, 1) double {mustBeFinite} = ConstantsSI.radiusE
             end
 
             if abs(obj.lapse_rate) < eps(2)
                 localtemp = ones(size(geometalt)) .* obj.base_temp;
             else
 
-                localtemp = alt2tempGRAD(geometalt, pot2met(obj.base_geopotalt), ...
+                localtemp = alt2tempGRAD(geometalt, pot2met(obj.base_geopotalt, r_0), ...
                     obj.lapse_rate, obj.base_temp);
             end
         end
 
-        function localdens = alt2dens(obj, geometalt, g_0, Rgas)
+        function localdens = alt2dens(obj, geometalt, g_0, Rgas, r_0)
             arguments
                 obj (1, 1) AtmosLayer
                 geometalt (1, :) double {mustBeFinite}
                 g_0 (1, 1) double {mustBeFinite} = ConstantsSI.gE0
                 Rgas (1, 1) double {mustBeFinite} = ConstantsSI.Rair
+                r_0 (1, 1) double {mustBeFinite} = ConstantsSI.radiusE
             end
 
 
             if abs(obj.lapse_rate) < eps(2)
-                localdens = alt2densISO(geometalt, pot2met(obj.base_geopotalt), obj.base_dens, obj.base_temp, g_0, Rgas);
+                localdens = alt2densISO(geometalt, pot2met(obj.base_geopotalt, r_0), obj.base_dens, obj.base_temp, g_0, Rgas);
             else
-                localdens = alt2densGRAD(geometalt, pot2met(obj.base_geopotalt), obj.base_dens, obj.base_temp, obj.lapse_rate, g_0, Rgas);
+                localdens = alt2densGRAD(geometalt, pot2met(obj.base_geopotalt, r_0), obj.base_dens, obj.base_temp, obj.lapse_rate, g_0, Rgas);
             end
         end
 
-        function localpres = alt2pres(obj, geometalt, g_0, Rgas)
+        function localpres = alt2pres(obj, geometalt, g_0, Rgas, r_0)
             arguments
                 obj (1, 1) AtmosLayer
                 geometalt (1, :) double {mustBeFinite}
                 g_0 (1, 1) double {mustBeFinite} = ConstantsSI.gE0
                 Rgas (1, 1) double {mustBeFinite} = ConstantsSI.Rair
+                r_0 (1, 1) double {mustBeFinite} = ConstantsSI.radiusE
             end
 
             if abs(obj.lapse_rate) < eps(2)
-                localpres = alt2presISO(geometalt, pot2met(obj.base_geopotalt), obj.base_pres, obj.base_temp, g_0, Rgas);
+                localpres = alt2presISO(geometalt, pot2met(obj.base_geopotalt, r_0), obj.base_pres, obj.base_temp, g_0, Rgas);
             else
-                localpres = alt2densGRAD(geometalt, pot2met(obj.base_geopotalt), obj.base_pres, obj.base_temp, obj.lapse_rate, g_0, Rgas);
+                localpres = alt2presGRAD(geometalt, pot2met(obj.base_geopotalt, r_0), obj.base_pres, obj.base_temp, obj.lapse_rate, g_0, Rgas);
             end
         end
                 
