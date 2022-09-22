@@ -9,6 +9,8 @@
 float REARTH = 6378.137E3;  //Radius of Earth at Mean Sea Level (m)
 float RAIR = 287.052874;    //Specific Gas Constant for Air up to ~85 km
 float G0 = 9.80665;         //Gravitational Acceleration at Mean Sea Level (m/s^2)
+float MU1 = 3418366.214; // -G0 / (lrate_1 * R_air)
+float MU2 = -102.5588756; // -G0 / (R_air * temp_2)
 
 // LAYER ARRAYS
 int layerlen = 8; // Length of Arrays
@@ -67,13 +69,13 @@ float *alt2state(float metalt){
     float dens;
 
     if (-layerrate[i] < 1E-5){
-        pres = pres_1 * pow(exp(temp / temp_1), -(G0 / (RAIR * temp)) * altdiff); 
+        pres = pres_1 * exp(-(G0 / (RAIR * temp)) * altdiff); 
     }else{
         pres = pres_1 * pow(temp / temp_1, -G0 / (alpha * RAIR));
     }
     
     dens = state2dens(temp, pres);
 
-    float *state = (float *) memcpy(malloc(sizeof(float) * 3), (float[3]) {temp, pres, dens}, sizeof(float) * 3);
+    float *state = memcpy(malloc(sizeof(float) * 3), (float[3]) {temp, pres, dens}, sizeof(float) * 3);
     return state;
 }
